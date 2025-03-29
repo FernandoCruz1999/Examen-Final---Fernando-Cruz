@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ofertas Mercado Libre</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/custom.css') }}">
+</head>
+
+<body>
+    <h1>Ofertas Mercado Libre</h1>
+
+    <div class="badge-container" id="product-count">
+        Productos disponibles: {{ offers|length }}
+    </div>
+
+    <div class="filters">
+        <select id="filter-discount">
+            <option value="">Filtrar por descuento</option>
+            <option value="0-30">0% - 30%</option>
+            <option value="31-60">31% - 60%</option>
+            <option value="61-100">61% o más</option>
+        </select>
+
+        <select id="filter-coupon">
+            <option value="">Filtrar por cupón</option>
+            <option value="0-30">0% - 30%</option>
+            <option value="31-60">31% - 60%</option>
+            <option value="61-100">61% o más</option>
+        </select>
+
+        <button id="clear-filters">Limpiar Filtros</button>
+    </div>
+
+
+
+    <table>
+        <thead>
+            <tr>
+                <th>Producto</th>
+                <th class="sortable">Precio Antes</th>
+                <th class="sortable">Precio</th>
+                <th class="sortable">Diferencia</th>
+                <th>Etiquetas</th>
+                <th>Marca</th>
+                <th>Vendedor</th>
+                <th>Enlace</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for offer in offers %}
+            <tr>
+                <td>{{ " ".join(offer['title'].split()[:4]) }}</td>
+                <td data-value="{{ offer['old_price'] if offer['old_price'] is not none else 0 }}">
+                    {{ "S/ " + offer['old_price']|string if offer['old_price'] is not none else '-' }}
+                </td>
+                <td data-value="{{ offer['current_price'] if offer['current_price'] is not none else 0 }}">
+                    {{ "S/ " + offer['current_price']|string if offer['current_price'] is not none else '-' }}
+                </td>
+                <td class="green-text"
+                    data-value="{{ offer['discount_money'] if offer['discount_money'] is not none else 0 }}">
+                    {{ "S/ " + offer['discount_money']|string if offer['discount_money'] is not none else '-' }}
+                </td>
+                <td data-value="{{ offer['discount'] or 0 }}" data-coupon="{{ offer['coupon'] or 0 }}">
+                    {% if offer['discount'] %}
+                    <span class="badge discount">Descuento: {{ offer['discount'] }}%</span>
+                    {% endif %}
+                    {% if offer['coupon'] %}
+                    <span class="badge coupon">Cupón: {{ offer['coupon'] }}%</span>
+                    {% endif %}
+                    {% if offer['free_shipping'] == 1 %}
+                    <span class="badge free-shipping">Envío Gratis</span>
+                    {% endif %}
+                    {% if offer['type'] is not none  %}
+                    <span class="badge type-offer">{{ offer['type'] }}</span>
+                    {% endif %}
+                </td>
+                <td>{{ offer['brand'] if offer['brand'] is not none else '-' }}</td>
+                <td>{{ offer['seller'] if offer['seller'] is not none else '-' }}</td>
+                <td><a href="{{ offer['url'] }}" target="_blank">🔗</a></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+
+</html>

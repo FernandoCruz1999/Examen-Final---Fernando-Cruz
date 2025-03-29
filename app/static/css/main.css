@@ -1,0 +1,85 @@
+body {
+  margin: 0;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #1a1a1a;
+  font-family: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji",
+    "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+}
+
+.container {
+  text-align: center;
+}
+
+.text {
+  font-size: 3rem;
+  font-weight: 700;
+  background: linear-gradient(90deg, #42d392, #647eff, #42d392);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  color: transparent;
+  margin-bottom: 40px;
+  animation: gradientAnimation 3s linear infinite;
+}
+
+@keyframes gradientAnimation {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.button-container {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+}
+
+.button {
+  display: flex;
+  align-items: center;
+  padding: 12px 20px;
+  font-size: 16px;
+  font-weight: 500;
+  color: white;
+  border-radius: 8px;
+  transition: background-color 0.3s, transform 0.2s;
+  cursor: pointer;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.active-button {
+  background-color: #42d392;
+}
+
+.active-button:hover {
+  background-color: #36a374;
+  transform: scale(1.05);
+}
+
+.normal-button {
+  background-color: #333;
+}
+
+.normal-button:hover {
+  background-color: #444;
+  transform: scale(1.05);
+}
+
+.button svg {
+  margin-right: 8px;
+  width: 18px;
+  height: 18px;
+}
+
+.button span {
+  font-weight: 500;
+}
